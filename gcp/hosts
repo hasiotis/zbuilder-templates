@@ -1,10 +1,10 @@
 localhost ansible_connection=local
 
 [ubuntu]
-ubuntu01.gcp.hasiotis.dev.dev
+ubuntu01.gcp.hasiotis.dev
 
 [centos]
-centos01.gcp.hasiotis.dev.dev
+centos01.gcp.hasiotis.dev
 
 [environment:children]
 ubuntu
