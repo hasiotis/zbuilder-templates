@@ -1,0 +1,14 @@
+ZBUILDER_PROVIDER:
+  DNS: "{{ GLOBAL_PROVIDER }}"
+  CLOUD: "{{ GLOBAL_PROVIDER }}"
+  VM_OPTIONS:
+    sshkey: "{{ ZBUILDER_PUBKEY }}"
+    project: "{{ GLOBAL_PROJECT }}"
+    region: "{{ GLOBAL_REGION }}"
+    zone: "{{ GLOBAL_ZONE }}"
+    size: "{{ GLOBAL_SIZE }}"
+    network: "{{ GLOBAL_NETWORK }}"
+    subnet: "{{ GLOBAL_SUBNET }}"
+    image:
+      family: centos-7
+      project: centos-cloud
