@@ -30,7 +30,7 @@
         comment: "The Administrator user"
         uid: "{{ ugid }}"
         group: "{{ username }}"
-        groups: sudo
+        groups: sudo,google-sudoers
         shell: '/bin/bash'
       when: ansible_os_family == "Debian"
 
@@ -44,7 +44,7 @@
         comment: "The Administrator user"
         uid: "{{ ugid }}"
         group: "{{ username }}"
-        groups: wheel
+        groups: wheel,google-sudoers
         shell: '/bin/bash'
       when: ansible_os_family == "RedHat"
 
