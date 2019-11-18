@@ -1,0 +1,14 @@
+---
+- hosts: environment
+  user: sysadmin
+  become: yes
+  gather_facts: false
+  tasks:
+    - action: ping
+
+
+- hosts: environment
+  user: sysadmin
+  become: yes
+  roles:
+    - { role: common, tags: common }
