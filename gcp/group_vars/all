@@ -11,6 +11,7 @@ GLOBAL_ZONE: europe-west4-a
 GLOBAL_SIZE: f1-micro
 GLOBAL_NETWORK: default
 GLOBAL_SUBNET: default
+GLOBAL_NET_EXTERNAL: true
 GLOBAL_IMAGE:
   family: ubuntu-1804-lts
   project: ubuntu-os-cloud

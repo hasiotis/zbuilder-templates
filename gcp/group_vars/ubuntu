@@ -9,4 +9,5 @@ ZBUILDER_PROVIDER:
     size: "{{ GLOBAL_SIZE }}"
     network: "{{ GLOBAL_NETWORK }}"
     subnet: "{{ GLOBAL_SUBNET }}"
+    external: "{{ GLOBAL_NET_EXTERNAL }}"
     image: "{{ GLOBAL_IMAGE }}"
