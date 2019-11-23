@@ -1,0 +1,14 @@
+# To be used by zbuilder
+ZBUILDER_PUBKEY: "~/.ssh/id_rsa.pub"
+ZBUILDER_SYSUSER: sysadmin
+ZBUILDER_FORCE: TRUE
+ZBUILDER_ENV: DEV
+
+GLOBAL_PROVIDER: azure
+GLOBAL_LOCATION: westeurope
+GLOBAL_RESOURCE_GROUP: zbuilder
+GLOBAL_VM_SIZE:  Standard_DS1_v2
+
+GLOBAL_NET_VNET: zbuilder-vnet
+GLOBAL_NET_SUBNET: zbuilder-subnet
+GLOBAL_NET_GROUP: zbuilder

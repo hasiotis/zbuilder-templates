@@ -1,0 +1,13 @@
+localhost ansible_connection=local
+
+[ubuntu]
+ubuntu01.azure.hasiotis.dev
+ubuntu02.azure.hasiotis.dev
+
+[centos]
+centos01.azure.hasiotis.dev
+centos02.azure.hasiotis.dev
+
+[environment:children]
+ubuntu
+centos

@@ -1,0 +1,7 @@
+---
+- hosts: all:!localhost
+  remote_user: "{{ ZBUILDER_SYSUSER }}"
+  become: true
+  tasks:
+    - name: bootstrap | No password for user root
+      user: name=root password='*'
