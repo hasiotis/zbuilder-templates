@@ -10,7 +10,9 @@ ZBUILDER_PROVIDER:
     sku: 7.5
     version: latest
     storageAccountType: Standard_LRS
+    external_dns: "{{ GLOBAL_DNS_EXTERNAL }}"
     network:
       vnet: "{{ GLOBAL_NET_VNET }}"
       subnet: "{{ GLOBAL_NET_SUBNET }}"
       group: "{{ GLOBAL_NET_GROUP }}"
+      external: "{{ GLOBAL_NET_EXTERNAL}}"

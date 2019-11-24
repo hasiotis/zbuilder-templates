@@ -10,6 +10,7 @@ ZBUILDER_PROVIDER:
     sku: 18.04-LTS
     version: latest
     storageAccountType: Standard_LRS
+    external_dns: "{{ GLOBAL_DNS_EXTERNAL }}"
     data_disks:
       - diskSizeGB: 32
         caching: ReadWrite
@@ -21,3 +22,4 @@ ZBUILDER_PROVIDER:
       vnet: "{{ GLOBAL_NET_VNET }}"
       subnet: "{{ GLOBAL_NET_SUBNET }}"
       group: "{{ GLOBAL_NET_GROUP }}"
+      external: "{{ GLOBAL_NET_EXTERNAL}}"
