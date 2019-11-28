@@ -2,7 +2,6 @@ ZBUILDER_PROVIDER:
   DNS: "{{ GLOBAL_PROVIDER }}"
   CLOUD: "{{ GLOBAL_PROVIDER }}"
   VM_OPTIONS:
-    sshkey: "{{ ZBUILDER_PUBKEY }}"
     project: "{{ GLOBAL_PROJECT }}"
     region: "{{ GLOBAL_REGION }}"
     zone: "{{ GLOBAL_ZONE }}"
