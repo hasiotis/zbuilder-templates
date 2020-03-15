@@ -1,0 +1,9 @@
+ZBUILDER_PROVIDER:
+  CLOUD: "{{ GLOBAL_PROVIDER }}"
+  VM_OPTIONS:
+    ami: ami-04cf43aca3e6f3de3
+    region: "{{ GLOBAL_REGION }}"
+    vmtype: "{{ GLOBAL_VMTYPE }}"
+    key: "{{ GLOBAL_KEY }}"
+    subnet: "{{ GLOBAL_SUBNET }}"
+    sg: "{{ GLOBAL_SG }}"

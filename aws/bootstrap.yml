@@ -1,0 +1,70 @@
+- hosts: all:!localhost
+  gather_facts: False
+  become: true
+  vars:
+    username: "{{ ZBUILDER_SYSUSER }}"
+    ugid: 800
+  tasks:
+    - name: bootstrap | Wait for ssh to become available
+      local_action: wait_for port=22 host={{ inventory_hostname }} search_regex=OpenSSH delay=2
+
+    - name: bootstrap | Switch to distro remote user
+      set_fact: ansible_ssh_user="{{ ZBUILDER_PROVIDER['BOOTSTRAP_USER'] }}"
+
+    - name: bootstrap | Detect OS Family
+      raw: 'python -mplatform'
+      register: os_family
+
+    - name: bootstrap | Hacky way to install python (Ubuntu)
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      when: (os_family.stdout.find('Ubuntu') != -1) or (os_family.stdout.find('Debian') != -1)
+      changed_when: False
+
+    - name: bootstrap | Disable sudo with password (Debian)
+      lineinfile: "dest=/etc/sudoers state=absent  regexp='^%sudo' line='%sudo   ALL=(ALL:ALL) ALL'"
+      when: (os_family.stdout.find('Ubuntu') != -1) or (os_family.stdout.find('Debian') != -1)
+
+    - name: bootstrap | Enable sudo without password (Debian)
+      lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo   ALL=(ALL) NOPASSWD: ALL'"
+      when: (os_family.stdout.find('Ubuntu') != -1) or (os_family.stdout.find('Debian') != -1)
+
+    - name: bootstrap | Enable sudo (RedHat)
+      lineinfile: "dest=/etc/sudoers state=present regexp='^%wheel' line='%wheel   ALL=(ALL) NOPASSWD: ALL'"
+      when: (os_family.stdout.find('redhat') != -1) or (os_family.stdout.find('centos') != -1)
+
+    - name: bootstrap | No requiretty for sysuser (RedHat)
+      lineinfile: dest=/etc/sudoers state=present regexp='Defaults:sysuser.*\s*requiretty' line='Defaults:sysuser    !requiretty' insertafter='Defaults\s*requiretty'
+      when: (os_family.stdout.find('redhat') != -1) or (os_family.stdout.find('centos') != -1)
+
+    - name: bootstrap | Create "{{ username }}" group
+      group: name="{{ username }}" gid="{{ ugid }}" state=present
+
+    - name: bootstrap | Create "{{ username }}" user (Debian)
+      user:
+        name: "{{ username }}"
+        comment: "The Administrator user"
+        uid: "{{ ugid }}"
+        group: "{{ username }}"
+        groups: sudo
+        shell: '/bin/bash'
+      when: (os_family.stdout.find('Ubuntu') != -1) or (os_family.stdout.find('Debian') != -1)
+
+    - name: bootstrap | Install libselinux-python (RedHat)
+      yum: name=libselinux-python state=present
+      when: (os_family.stdout.find('redhat') != -1) or (os_family.stdout.find('centos') != -1)
+
+    - name: bootstrap | Create "{{ username }}" user (RedHat)
+      user:
+        name: "{{ username }}"
+        comment: "The Administrator user"
+        uid: "{{ ugid }}"
+        group: "{{ username }}"
+        groups: wheel
+        shell: '/bin/bash'
+      when: (os_family.stdout.find('redhat') != -1) or (os_family.stdout.find('centos') != -1)
+
+    - name: bootstrap | No password for user root
+      user: name=root password='*'
+
+    - name: bootstrap | Add custom key for "{{ username }}"
+      authorized_key: user="{{ username }}" key="{{ lookup('file', ZBUILDER_PUBKEY) }}"
