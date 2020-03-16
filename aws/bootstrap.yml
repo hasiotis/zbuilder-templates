@@ -11,14 +11,13 @@
     - name: bootstrap | Switch to distro remote user
       set_fact: ansible_ssh_user="{{ ZBUILDER_PROVIDER['BOOTSTRAP_USER'] }}"
 
+    - name: bootstrap | Hacky way to install python (Ubuntu)
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      changed_when: False
+
     - name: bootstrap | Detect OS Family
       raw: 'python -mplatform'
       register: os_family
-
-    - name: bootstrap | Hacky way to install python (Ubuntu)
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-      when: (os_family.stdout.find('Ubuntu') != -1) or (os_family.stdout.find('Debian') != -1)
-      changed_when: False
 
     - name: bootstrap | Disable sudo with password (Debian)
       lineinfile: "dest=/etc/sudoers state=absent  regexp='^%sudo' line='%sudo   ALL=(ALL:ALL) ALL'"
